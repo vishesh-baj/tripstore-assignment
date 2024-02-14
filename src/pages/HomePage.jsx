@@ -1,11 +1,12 @@
 import { useDispatch } from "react-redux";
 import { setChoice } from "../features/choice";
+import { Link } from "react-router-dom";
+import { PATHS } from "../routes/paths";
 const HomePage = () => {
   const dispatch = useDispatch();
 
   const handleChoiceChange = (value) => {
     dispatch(setChoice(value));
-    console.log(value);
   };
 
   return (
@@ -18,24 +19,29 @@ const HomePage = () => {
             excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
             a id nisi.
           </p>
-          <select
-            onChange={(e) => handleChoiceChange(e.target.value)}
-            className="select select-bordered w-full max-w-xs"
-          >
-            <option disabled selected>
-              Select a choice
-            </option>
-            <option>Bakery</option>
-            <option>Bar</option>
-            <option>Cafe</option>
-            <option>Fast food restaurant</option>
-            <option>Icecream Shop</option>
-            <option>Chinese Restaurant</option>
-            <option>Pizza Place</option>
-            <option>Sushi Restaurant</option>
-            <option>Thai Restaurant</option>
-            <option>Vegetarian Restaurant</option>
-          </select>
+          <div className="flex flex-col items-center gap-4 justify-center">
+            <select
+              onChange={(e) => handleChoiceChange(e.target.value)}
+              className="select select-bordered w-full max-w-xs"
+            >
+              <option disabled selected>
+                Select a choice
+              </option>
+              <option>Bakery</option>
+              <option>Bar</option>
+              <option>Cafe</option>
+              <option>Fast food restaurant</option>
+              <option>Icecream Shop</option>
+              <option>Chinese Restaurant</option>
+              <option>Pizza Place</option>
+              <option>Sushi Restaurant</option>
+              <option>Thai Restaurant</option>
+              <option>Vegetarian Restaurant</option>
+            </select>
+            <Link to={PATHS.listingsPage} className="btn btn-primary btn-wide">
+              Get Started
+            </Link>
+          </div>
         </div>
       </div>
     </div>
