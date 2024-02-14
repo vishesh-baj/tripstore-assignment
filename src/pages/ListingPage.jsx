@@ -6,6 +6,9 @@ import { useMutation } from "react-query";
 import axios from "axios";
 import { API_KEY } from "../constants";
 import { useState } from "react";
+import { convertToApiString } from "../utils";
+import { Link } from "react-router-dom";
+import { PATHS } from "../routes/paths";
 const ListingPage = () => {
   const [searchData, setSearchData] = useState([]);
   const {
@@ -14,20 +17,14 @@ const ListingPage = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(bookSearchSchema) });
   const categoryName = useSelector((x) => x.category.value);
-
   const onSubmit = (data) => {
     categoryMutation.mutate(data);
   };
-  function convertSpaceSeparatedString(inputString) {
-    var words = inputString.split(" ");
-    var resultString = words.join("+");
-    return resultString;
-  }
 
   const categoryMutation = useMutation(
     (data) =>
       axios.get(
-        `https://www.googleapis.com/books/v1/volumes?q=${convertSpaceSeparatedString(
+        `https://www.googleapis.com/books/v1/volumes?q=${convertToApiString(
           data.bookName
         )}&key=${API_KEY}`
       ),
@@ -40,10 +37,11 @@ const ListingPage = () => {
 
   return (
     <div className="w-screen h-screen rounded bg-base-300">
-      <h1 className=" text-3xl text-accent text-center md:text-8xl py-8">
-        {categoryName.toUpperCase()}
-      </h1>
-      <div className="flex justify-center">
+      <div className="flex justify-center flex-col items-center">
+        <h1 className=" text-3xl text-accent text-center md:text-8xl py-8">
+          {categoryName.toUpperCase()}
+        </h1>
+        <Link to={PATHS.home}>Go Back</Link>
         <form onSubmit={handleSubmit(onSubmit)} className="w-1/2">
           <div className="form-control">
             <label htmlFor="category-input" className="label">
@@ -84,10 +82,16 @@ const ListingPage = () => {
               <div className="card-body">
                 <h2 className="card-title">{item.volumeInfo.title}</h2>
                 <p>{item.volumeInfo.subtitle}</p>
-                <div className="card-actions justify-end">
+                <div className="card-actions">
                   <a to={item.saleInfo.buyLink} className="btn btn-primary">
                     Buy Now
                   </a>
+                  <button
+                    to={item.saleInfo.buyLink}
+                    className="btn btn-warning"
+                  >
+                    Details
+                  </button>
                 </div>
               </div>
             </div>
