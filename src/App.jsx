@@ -4,10 +4,8 @@ const App = () => {
   return (
     <div>
       <Routes>
-        {ROUTES.map((route) => {
-          return (
-            <Route key={route.key} path={route.path} element={route.Element} />
-          );
+        {ROUTES.map(({ key, path, Element }) => {
+          return <Route key={key} path={path} element={Element} />;
         })}
       </Routes>
     </div>
