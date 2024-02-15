@@ -6,12 +6,11 @@ const DetailPage = () => {
   const bookDetails = useSelector((x) => x.book.value);
 
   return (
-    <div className="w-screen h-screenc flex flex-col ">
+    <div className="w-screen h-screen flex flex-col ">
       <h1 className=" text-3xl md:text-8xl text-center py-8">
         {bookDetails.title}
       </h1>
       <div className="flex justify-center">
-        {" "}
         <Link to={PATHS.home} className="btn ">
           Go Back
         </Link>

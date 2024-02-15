@@ -50,7 +50,7 @@ const ListingPage = () => {
   };
 
   return (
-    <div className="w-screen h-screen rounded bg-base-300">
+    <div className="w-screen h-screen rounded ">
       <div className="flex justify-center flex-col items-center">
         <h1 className=" text-3xl text-accent text-center md:text-8xl py-8">
           {categoryName.toUpperCase()}

@@ -21,7 +21,7 @@ const Card = ({ item, detailsHandler }) => {
           <button
             onClick={() => detailsHandler(item)}
             to={item.saleInfo.buyLink}
-            className="btn btn-warning"
+            className="btn btn-info"
           >
             Details
           </button>
@@ -45,6 +45,7 @@ Card.propTypes = {
       buyLink: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
+  detailsHandler: PropTypes.func.isRequired,
 };
 
 export default Card;
