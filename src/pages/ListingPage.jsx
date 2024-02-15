@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { bookSearchSchema } from "../validations";
 import { useMutation } from "react-query";
@@ -7,18 +7,26 @@ import axios from "axios";
 import { API_KEY } from "../constants";
 import { useState } from "react";
 import { convertToApiString } from "../utils";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../routes/paths";
+import Card from "../components/Card";
+import { selectBook } from "../features/book";
+
 const ListingPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [searchData, setSearchData] = useState([]);
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({ resolver: yupResolver(bookSearchSchema) });
   const categoryName = useSelector((x) => x.category.value);
   const onSubmit = (data) => {
     categoryMutation.mutate(data);
+    reset();
   };
 
   const categoryMutation = useMutation(
@@ -26,7 +34,7 @@ const ListingPage = () => {
       axios.get(
         `https://www.googleapis.com/books/v1/volumes?q=${convertToApiString(
           data.bookName
-        )}&key=${API_KEY}`
+        )}&category=${categoryName}&key=${API_KEY}`
       ),
     {
       onSuccess: (data) => {
@@ -34,6 +42,12 @@ const ListingPage = () => {
       },
     }
   );
+
+  const handleDetailsClick = (item) => {
+    console.log(item);
+    dispatch(selectBook(item.volumeInfo));
+    navigate(PATHS.details);
+  };
 
   return (
     <div className="w-screen h-screen rounded bg-base-300">
@@ -70,31 +84,11 @@ const ListingPage = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-8 mx-8">
         {searchData?.map((item) => {
           return (
-            <div key={item.id} className="card  bg-base-100 shadow-xl">
-              <figure className="w-full h-64 overflow-hidden">
-                <img
-                  src={item.volumeInfo.imageLinks?.thumbnail}
-                  alt="Shoes"
-                  className="object-cover w-full h-full"
-                />
-              </figure>
-
-              <div className="card-body">
-                <h2 className="card-title">{item.volumeInfo.title}</h2>
-                <p>{item.volumeInfo.subtitle}</p>
-                <div className="card-actions">
-                  <a to={item.saleInfo.buyLink} className="btn btn-primary">
-                    Buy Now
-                  </a>
-                  <button
-                    to={item.saleInfo.buyLink}
-                    className="btn btn-warning"
-                  >
-                    Details
-                  </button>
-                </div>
-              </div>
-            </div>
+            <Card
+              detailsHandler={handleDetailsClick}
+              key={item.id}
+              item={item}
+            />
           );
         })}
       </div>

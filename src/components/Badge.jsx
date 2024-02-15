@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 const Badge = ({ categoryName, color, textColor, handleClick }) => {
   return (
     <div
@@ -7,6 +9,13 @@ const Badge = ({ categoryName, color, textColor, handleClick }) => {
       {categoryName}
     </div>
   );
+};
+
+Badge.propTypes = {
+  categoryName: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+  textColor: PropTypes.string.isRequired,
+  handleClick: PropTypes.func.isRequired,
 };
 
 export default Badge;
