@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { bookSearchSchema } from "../validations";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import axios from "axios";
 import { API_KEY } from "../constants";
 import { useState } from "react";
@@ -17,6 +17,7 @@ const ListingPage = () => {
   const navigate = useNavigate();
 
   const [searchData, setSearchData] = useState([]);
+
   const {
     register,
     handleSubmit,
@@ -24,6 +25,7 @@ const ListingPage = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(bookSearchSchema) });
   const categoryName = useSelector((x) => x.category.value);
+
   const onSubmit = (data) => {
     categoryMutation.mutate(data);
     reset();
@@ -43,11 +45,30 @@ const ListingPage = () => {
     }
   );
 
+  const fetchCategories = async () => {
+    const response = await axios.get(
+      `https://www.googleapis.com/books/v1/volumes?q=subject:${categoryName}&key=${API_KEY}`
+    );
+
+    return response.data;
+  };
+
   const handleDetailsClick = (item) => {
     console.log(item);
     dispatch(selectBook(item.volumeInfo));
     navigate(PATHS.details);
   };
+
+  const { data, isLoading } = useQuery(
+    "get-books-by-category",
+    fetchCategories,
+    {
+      onSuccess: (data) => {
+        console.log("CATEGORY DATA: ", data.items);
+        setSearchData(data.items);
+      },
+    }
+  );
 
   return (
     <div className="w-screen h-screen rounded ">
