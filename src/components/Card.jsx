@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 
 const Card = ({ item, detailsHandler }) => {
-  console.log("ITEM: ", item);
   return (
     <div key={item.id} className="card  bg-base-100 shadow-xl">
       <figure className="w-full h-64 overflow-hidden">

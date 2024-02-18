@@ -5,8 +5,6 @@ import { PATHS } from "../routes/paths";
 const DetailPage = () => {
   const bookDetails = useSelector((x) => x.book.value);
 
-  console.log("BOOK DETAILS: ", bookDetails);
-
   return (
     <div className="w-screen h-screen flex flex-col ">
       <h1 className=" text-3xl md:text-8xl text-center py-8">

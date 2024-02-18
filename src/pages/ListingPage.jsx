@@ -60,7 +60,6 @@ const ListingPage = () => {
   };
 
   const handleDetailsClick = (item) => {
-    console.log(item);
     dispatch(selectBook(item.volumeInfo));
     navigate(PATHS.details);
   };
@@ -81,7 +80,6 @@ const ListingPage = () => {
     fetchCategories,
     {
       onSuccess: (data) => {
-        console.log("CATEGORY DATA: ", data.items);
         setSearchData(data.items);
       },
     }
