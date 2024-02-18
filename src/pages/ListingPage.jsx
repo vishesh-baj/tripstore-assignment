@@ -4,7 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { bookSearchSchema } from "../validations";
 import { useMutation, useQuery } from "react-query";
 import axios from "axios";
-import { API_KEY } from "../constants";
+import { API_ENDPOINT, API_KEY } from "../constants";
 import { useState } from "react";
 import { convertToApiString } from "../utils";
 import { Link, useNavigate } from "react-router-dom";
@@ -37,11 +37,11 @@ const ListingPage = () => {
   const categoryMutation = useMutation(
     (data) =>
       axios.get(
-        `https://www.googleapis.com/books/v1/volumes?q=${convertToApiString(
+        `${API_ENDPOINT}${convertToApiString(
           data.bookName
         )}&category=${categoryName}&key=${API_KEY}&startIndex=${
           currentPage * 10
-        }`
+        }&subject:${categoryName}`
       ),
     {
       onSuccess: (data) => {
@@ -53,7 +53,7 @@ const ListingPage = () => {
 
   const fetchCategories = async () => {
     const response = await axios.get(
-      `https://www.googleapis.com/books/v1/volumes?q=subject:${categoryName}&key=${API_KEY}`
+      `${API_ENDPOINT}subject:${categoryName}&key=${API_KEY}`
     );
 
     return response.data;

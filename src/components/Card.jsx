@@ -39,6 +39,7 @@ Card.propTypes = {
     volumeInfo: PropTypes.shape({
       title: PropTypes.string.isRequired,
       subtitle: PropTypes.string,
+      previewLink: PropTypes.string,
       imageLinks: PropTypes.shape({
         thumbnail: PropTypes.string,
       }),
