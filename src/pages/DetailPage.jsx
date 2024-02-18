@@ -39,10 +39,6 @@ const DetailPage = () => {
               })}
           </p>
         </div>
-
-        <a to={bookDetails.previewLink} className="btn btn-primary">
-          buy now
-        </a>
       </div>
     </div>
   );

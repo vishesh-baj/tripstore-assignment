@@ -16,13 +16,15 @@ const Card = ({ item, detailsHandler }) => {
         <h2 className="card-title">{item.volumeInfo.title}</h2>
         <p>{item.volumeInfo.subtitle}</p>
         <div className="card-actions">
-          <a to={item.saleInfo.buyLink} className="btn btn-primary">
-            Buy Now
-          </a>
-          <button
-            onClick={() => detailsHandler(item)}
-            className="btn btn-info"
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href={item.volumeInfo.previewLink}
+            className="btn btn-primary"
           >
+            Preview
+          </a>
+          <button onClick={() => detailsHandler(item)} className="btn btn-info">
             Details
           </button>
         </div>

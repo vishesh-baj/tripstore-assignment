@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import Badge from "../components/Badge";
 import { PATHS } from "../routes/paths";
 import { useDispatch } from "react-redux";
@@ -37,11 +37,6 @@ const HomePage = () => {
                 />
               );
             })}
-          </div>
-          <div className="mt-8">
-            <Link to={PATHS.listing} className="btn  animate-bounce">
-              OR GO WILD
-            </Link>
           </div>
         </div>
       </div>
