@@ -17,6 +17,8 @@ const ListingPage = () => {
   const navigate = useNavigate();
 
   const [searchData, setSearchData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(5);
 
   const {
     register,
@@ -36,11 +38,14 @@ const ListingPage = () => {
       axios.get(
         `https://www.googleapis.com/books/v1/volumes?q=${convertToApiString(
           data.bookName
-        )}&category=${categoryName}&key=${API_KEY}`
+        )}&category=${categoryName}&key=${API_KEY}&startIndex=${
+          currentPage * 10
+        }`
       ),
     {
       onSuccess: (data) => {
-        setSearchData(data.data.items);
+        setTotalPages(Math.ceil(data.data.totalItems / 10));
+        setSearchData((prevData) => [...prevData, ...data.data.items]);
       },
     }
   );
@@ -59,6 +64,17 @@ const ListingPage = () => {
     navigate(PATHS.details);
   };
 
+  const handleLoadMore = () => {
+    if (currentPage < totalPages) {
+      // Increment the current page
+      setCurrentPage((prevPage) => prevPage + 1);
+
+      // Fetch the next page of data
+      categoryMutation.mutate({
+        bookName: searchData[searchData.length - 1]?.volumeInfo.title || "",
+      });
+    }
+  };
   const { data, isLoading } = useQuery(
     "get-books-by-category",
     fetchCategories,
@@ -112,6 +128,11 @@ const ListingPage = () => {
             />
           );
         })}
+      </div>
+      <div className="flex justify-center my-4">
+        <button onClick={handleLoadMore} className="btn btn-accent">
+          Load More
+        </button>
       </div>
     </div>
   );
