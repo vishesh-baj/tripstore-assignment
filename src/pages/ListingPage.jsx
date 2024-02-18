@@ -29,6 +29,7 @@ const ListingPage = () => {
   const categoryName = useSelector((x) => x.category.value);
 
   const onSubmit = (data) => {
+    setSearchData([]);
     categoryMutation.mutate(data);
     reset();
   };
