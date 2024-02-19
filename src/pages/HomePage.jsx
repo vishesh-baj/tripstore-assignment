@@ -1,4 +1,4 @@
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Badge from "../components/Badge";
 import { PATHS } from "../routes/paths";
 import { useDispatch } from "react-redux";

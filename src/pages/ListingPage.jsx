@@ -66,15 +66,14 @@ const ListingPage = () => {
 
   const handleLoadMore = () => {
     if (currentPage < totalPages) {
-      // Increment the current page
       setCurrentPage((prevPage) => prevPage + 1);
 
-      // Fetch the next page of data
       categoryMutation.mutate({
         bookName: searchData[searchData.length - 1]?.volumeInfo.title || "",
       });
     }
   };
+
   const { data, isLoading } = useQuery(
     "get-books-by-category",
     fetchCategories,
